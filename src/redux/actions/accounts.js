@@ -12,3 +12,4 @@ export function setData() {
         type: type.SET_DATA
     }
 }
+

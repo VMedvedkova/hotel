@@ -60,4 +60,16 @@ export const setDataRooms = async () => {
   }
 }
 
+export const checkNewUser = async (getNewUser, getAllUsers) => {
+    const userName = getNewUser.username
+    console.log('getNewUser.username', getNewUser.username)
+    console.log('getAllUsers', getAllUsers)
+    console.log('getAllUsers[userName]', getAllUsers[userName])
+    if (getAllUsers[userName]) {
+        const userPassword = getNewUser.password
+        if (getAllUsers[userName].password === userPassword) {
+            return true
+        }
+    } else return false
+}
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Component from './Header';
-import * as usersActions from '../../redux/actions/accounts';
+import Component from './AuthPage';
+import * as actions from '../../redux/actions/currentUser';
 import * as selectors from '../../redux/selectors';
 
 const mapStateToProps = state => ({
@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setData: () => dispatch(usersActions.setData()),
+    setUser: (payload) => dispatch(actions.setUser(payload)),
 });
 
 export default connect(null, mapDispatchToProps)(Component);

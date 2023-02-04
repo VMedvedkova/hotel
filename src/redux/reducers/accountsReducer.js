@@ -1,10 +1,10 @@
 import * as type from '../types'
 
 const initialState = {
-    users: []
+    accounts: []
 }
 
-export default function usersReducer(state = initialState, action) {
+export default function accountsReducer(state = initialState, action) {
     switch (action.type) {
         case type.SET_DATA:
             return {
@@ -13,7 +13,7 @@ export default function usersReducer(state = initialState, action) {
         case type.SET_DATA_ACCOUNTS:
             return {
                 ...state,
-                users: action.payload
+                accounts: action.payload
             }
         default:
             return {

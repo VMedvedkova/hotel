@@ -15,9 +15,11 @@ const Header = ({
     setData
 }) => {
 
+  setData()
+
     const handleClick = () => {
       console.log('ok')
-      setData()
+      // setData()
     }
 
     const date = new Date().toString()
@@ -32,7 +34,7 @@ const Header = ({
             <nav className="navbar navbar-expand-lg" aria-label="Eleventh navbar example">
             <div className="container-fluid">
 
-            <Button type={'primary'} onClick={handleClick}>SET DATA</Button>
+            {/* <Button type={'primary'} onClick={handleClick}>SET DATA</Button> */}
         
             </div>
         </nav>

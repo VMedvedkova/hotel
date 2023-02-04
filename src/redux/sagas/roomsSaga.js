@@ -7,7 +7,6 @@ import { setDataRoomsInStore } from '../actions/rooms'
 export function* handleSetData() {
     try {  
         const getDataRooms = yield call(setDataRooms)
-        console.log('getDataRooms', getDataRooms)
         yield put(setDataRoomsInStore(getDataRooms))   
     }
     catch {
@@ -17,9 +16,6 @@ export function* handleSetData() {
 }
 
 export function* watchData() {
-    // yield all([
-    //     takeEvery(type.SET_DATA, handleSetData)
-    // ]); 
     yield takeEvery(type.SET_DATA, handleSetData)
 };
 

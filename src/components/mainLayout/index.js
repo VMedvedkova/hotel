@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Component from './Header';
+import Component from './MainLayout';
 import * as usersActions from '../../redux/actions/accounts';
 import * as selectors from '../../redux/selectors';
 
@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setData: () => dispatch(usersActions.setData()),
+    // setData: () => dispatch(usersActions.setData()),
 });
 
-export default connect(null, mapDispatchToProps)(Component);
+export default connect(null, null)(Component);

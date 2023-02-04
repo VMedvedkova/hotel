@@ -1,9 +1,9 @@
 export const getData = state => state.users.data;
+export const getUser = state => state.currentUser.currentUser;
+export const getAllUsers = state => state.accounts.accounts;
+export const isAccessAllowed = state => state.currentUser.accessAllowed;
 
 
-export const getAllUsers = state => state.users.users;
-export const clientId = state => state.currentUser.clientId;
-export const isUserReadyToStartQuiz = state => state.quizReducer.isUserReadyToStartQuiz;
 export const setQuiz = state => state.quizReducer.setQuiz;
 export const setQuizWaiting = state => state.quizReducer.setQuizWaiting;
 export const getQuestions = state => state.questionsList.questions;
