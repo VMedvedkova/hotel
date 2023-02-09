@@ -3,7 +3,7 @@ import * as type from '../types'
 import * as selectors from '../selectors'
 import * as actions  from '../../firebase/index'
 import { setDataAccountsInStore } from '../actions/accounts'
-import { setAccessAllowed } from '../actions/currentUser'
+import { setAccessAllowed, showModal } from '../actions/currentUser'
 
 export function* handleSetData() {
     try {
@@ -14,14 +14,18 @@ export function* handleSetData() {
         yield put({ type: type.SET_DATA_FAILED, payload: 'handleSetData error'})
     }
 }
-export function* handleCheckUser() {     
+export function* handleCheckUser() {  
+    // yield call(handleSetData)   
     try {
         const getNewUser = yield select(selectors.getUser)
         const getAllUsers = yield select(selectors.getAllUsers)
         const isUser = yield actions.checkNewUser(getNewUser, getAllUsers);
         console.log('isUser', isUser)
+        // delay(500)
         // const accessDenied = yield call(actions.getResultsList)
+        yield put(showModal(!isUser))
         yield put(setAccessAllowed(isUser))
+
         
     }
     catch {

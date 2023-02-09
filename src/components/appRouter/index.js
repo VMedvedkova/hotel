@@ -4,6 +4,7 @@ import * as selectors from '../../redux/selectors';
 
 const mapStateToProps = state => ({
     user: selectors.getUser(state),
+    isAccessAllowed: selectors.isAccessAllowed(state),
 });
 
 

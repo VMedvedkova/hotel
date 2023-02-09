@@ -2,7 +2,8 @@ import * as type from '../types'
 
 const initialState = {
     currentUser: {},
-    accessAllowed: false
+    accessAllowed: false,
+    modalState: false
 }
 
 export default function currentUser(state = initialState, action) {
@@ -21,6 +22,11 @@ export default function currentUser(state = initialState, action) {
             return {
                 ...state,
                 accessAllowed: action.payload
+            }                
+        case type.SHOW_MODAL:
+            return {
+                ...state,
+                modalState: action.payload
             }
         default:
             return {

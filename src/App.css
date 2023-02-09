@@ -1,12 +1,74 @@
-.App {
-  text-align: center;
+ .ant-layout-content {
+  /* text-align: center; */
+  line-height: 1.5rem;
 }
-
+/*
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+} */
+
+.site-layout-content {
+  min-height: 280px;
+}
+.ant-layout .logo {
+  float: left;
+  width: 50px;
+  height: 50px;
+  margin: 16px 24px 16px 0;
+}
+.ant-layout header.ant-layout-header {
+  height: auto;
+}
+.ant-layout header button {
+  float: right;
+  margin: 16px 0 16px 24px;
+  line-height: 50px;
+  height: auto;
+  padding: 0;
+  border: 0;
+}
+.ant-layout .ant-form-item {
+  /* margin-bottom: 0 */
+}
+.ant-table-cell {
+  /* text-transform: capitalize; */
 }
 
+.site-layout-content .ant-image-img {
+  /* min-width: 100%; */
+  /* width: auto !important; */
+  /* display: block; */
+  /* min-height: 470px; */
+  /* height: 470px; */
+  /* height: 100%; */
+  width: 100% !important;
+  overflow: hidden;
+}
+/* .site-layout-content  .ant-carousel .slick-list .slick-slide >div>div,
+.site-layout-content  .ant-image-mask {
+  width: 100%;
+  text-align: center
+}
+.site-layout-content  .ant-carousel .slick-list .slick-slide >div{
+  display: inline-block;
+} */
+.site-layout-content  .ant-carousel .slick-list {
+  /* background: #001529; */
+} 
+.site-layout-content .ant-image {
+  width: 100%;
+  text-align: center;
+}
+.ant-carousel .slick-list .slick-slide >div>div {
+  overflow: hidden;
+}
+.ant-col ul {
+  padding-inline-start: 20px;
+}
+.ant-descriptions .ant-descriptions-item.featuresList .ant-descriptions-item-container .ant-descriptions-item-content {
+  display: inline-block;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

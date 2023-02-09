@@ -1,10 +1,12 @@
 import React from 'react';
 import 'antd/dist/reset.css'
-import { Button, DatePicker, message } from 'antd'
+import { Button, DatePicker, message, Table } from 'antd'
+import RoomsTablePage from '../roomsTablePage'
 
 const MainPage = ({
   deleteUser,
-  isAccessAllowed
+  isAccessAllowed,
+  accounts
 }) => {
 
   const handleClick = () => {
@@ -13,13 +15,11 @@ const MainPage = ({
   }
 
   console.log('isAccessAllowed', isAccessAllowed)
+  console.log('accounts', accounts)
 
   return (<>
-      {isAccessAllowed ?      
-      <p><Button type={'primary'} onClick={handleClick}>DELETE USER</Button></p>
-      :      
-      <p>Invalid username or password<br/>
-      <Button type={'primary'} onClick={handleClick}>GO BACK</Button></p> 
+      {isAccessAllowed && (accounts.length !== 0) &&     
+      <RoomsTablePage />      
       }
     </>
   )  

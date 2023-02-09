@@ -1,21 +1,55 @@
-import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Button, Checkbox, Form, Input, Modal } from 'antd';
 
 const AuthPage = ({
-  setUser
+  setUser,
+  isAccessAllowed,  
+  accounts,
+  user,
+  modalState,
+  showModal,
+  setDataAccountsInStore
 }) => {
+  // const [isUser, setIsUser] = useState(user);
+  const [isLoading, setIsLoading] = useState(true);
   
+
   const onFinish = (values) => {
-    console.log('Success:', values);
-    setUser(values)    
+    setUser(values)  
   };
+
+  console.log('isLoading:', isLoading);
+
+  // useEffect(() => {
+  //   console.log('isAccounts:', isAccounts);
+  //   console.log('isUser:', isUser);
+  //   console.log('isAccessAllowed:', isAccessAllowed);
+  // }, [isUser])
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(modalState);
+  
+  const handleOk = () => {
+    setIsModalOpen(false);
+    showModal(false)
+  };
+
+  const isAccounts = Object.keys(accounts).length !== 0
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [isAccounts])
+
+  useEffect(() => {
+    setIsModalOpen(modalState);
+  }, [modalState])
+
   return (
-  <Form
+    <>
+  {!isLoading ? <Form
     name="basic"
     labelCol={{ span: 8 }}
     wrapperCol={{ span: 16 }}
@@ -50,7 +84,16 @@ const AuthPage = ({
         Log in
       </Button>
     </Form.Item>
-  </Form>
+  </Form> : <p>Loading...</p>}
+  {modalState && <Modal title="" open={isModalOpen} 
+      footer={[
+          <Button key="submit" type="primary" onClick={handleOk}>
+            TRY AGAIN
+          </Button>]}
+          >
+  <p>Invalid username or password</p>
+</Modal>}
+</>
   )
 }
 

@@ -19,3 +19,11 @@ export function setAccessAllowed(payload) {
         payload
     }
 }
+
+export function showModal(payload) {
+    return {
+        type: type.SHOW_MODAL,
+        payload
+    }
+}
+
