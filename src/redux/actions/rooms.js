@@ -6,3 +6,14 @@ export function setDataRoomsInStore(payload) {
         payload
     }
 }
+export function setRooms() {
+    return {
+        type: type.SET_ROOMS
+    }
+}
+export function updateRoomData(payload) {
+    return {
+        type: type.UPDATE_ROOM_DATA,
+        payload
+    }
+}

@@ -3,28 +3,18 @@ import { Button, Checkbox, Form, Input, Modal } from 'antd';
 
 const AuthPage = ({
   setUser,
-  isAccessAllowed,  
   accounts,
-  user,
   modalState,
   showModal,
-  setDataAccountsInStore
+  setAccounts
 }) => {
-  // const [isUser, setIsUser] = useState(user);
-  const [isLoading, setIsLoading] = useState(true);
-  
+
+  setAccounts()
+  const [isLoading, setIsLoading] = useState(true);  
 
   const onFinish = (values) => {
     setUser(values)  
   };
-
-  console.log('isLoading:', isLoading);
-
-  // useEffect(() => {
-  //   console.log('isAccounts:', isAccounts);
-  //   console.log('isUser:', isUser);
-  //   console.log('isAccessAllowed:', isAccessAllowed);
-  // }, [isUser])
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);

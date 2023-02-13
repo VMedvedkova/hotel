@@ -9,9 +9,10 @@ import {
   HomeOutlined,
   CheckOutlined
 } from '@ant-design/icons';
+import CheckIn from '../../components/checkIn'
+import CheckOut from '../../components/checkOut'
 
 const contentStyle = {
-  // height: '160px',
   color: '#fff',
   lineHeight: '160px',
   textAlign: 'center',
@@ -19,7 +20,8 @@ const contentStyle = {
 };
 
 const SingleRoomPage = ({
-  rooms
+  rooms,
+  updateRooms
 }) => {
 
   const location = useLocation()
@@ -27,35 +29,17 @@ const SingleRoomPage = ({
   const room = rooms.find(item => item.id === path)
   const history = useHistory();
   const { Title, Paragraph, Text } = Typography;
-  const { gallery, number, type, occupancy, price, guest, features, description } = room;
+  const { gallery, number, type, occupancy, price, guest, features, description, id } = room;
   const [isCheckInModalOpen, setIsCheckInModalOpen] = useState(false);
   const [isCheckOutModalOpen, setIsCheckOutModalOpen] = useState(false);
   
-  const checkIn = () => {
-    setIsCheckInModalOpen(true)
-  }
-  const handleCheckIn = () => {
-  }
-  const handleCheckInCancel = () => {
-    setIsCheckInModalOpen(false)
-  }
-  const checkOut = () => {
-    setIsCheckOutModalOpen(true)
-  }
-  const handleCheckOut = () => {
-  }
-  const handleCheckOutCancel = () => {
-    setIsCheckOutModalOpen(false)
-  }
- 
   return (
   <>
-  
     <Row gutter={[32, 32]}>
       <Col span={24}><Button type="link" onClick={() => history.goBack()}><HomeOutlined />Back Home</Button></Col>
 
       <Col span={12}>
-        <Carousel >
+        <Carousel autoplay>
         
           {gallery.map((src, index) => (
              <Image 
@@ -70,10 +54,12 @@ const SingleRoomPage = ({
           <Col span={12}><Title underline>Room {number}</Title></Col>
           <Col span={12}>
             <Row justify="end">
-              <Space wrap>
-                <Button type="primary" onClick={checkIn} >Check In</Button>
-                <Button type="primary" onClick={checkOut} >Check Out</Button>
-              </Space>
+              {updateRooms &&
+                <Space wrap>             
+                  <CheckIn room={room}/>
+                  <CheckOut room={room}/>
+                </Space>
+              }
             </Row>
           </Col>
         </Row>
@@ -90,7 +76,7 @@ const SingleRoomPage = ({
             <Descriptions  column={1} layout={'vertical'} >
             <Descriptions.Item label="Features" labelStyle={{fontWeight: 'bold'}} className='featuresList'>
               {features.map((item, index) => (
-                <Text><CheckOutlined /> {item}<br /></Text>
+                <Text key={index}><CheckOutlined /> {item}<br /></Text>
                 ))
               }   
           </Descriptions.Item>
@@ -98,7 +84,6 @@ const SingleRoomPage = ({
         </Col>
         </Row>
       </Col>
-
       <Col span={24}>
         <Descriptions>
           <Descriptions.Item label="Description" labelStyle={{fontWeight: 'bold'}}>{description}</Descriptions.Item>
@@ -106,14 +91,7 @@ const SingleRoomPage = ({
       </Col>
 
     </Row>
-    <Modal title="Check In" open={isCheckInModalOpen} onOk={handleCheckIn} onCancel={handleCheckInCancel}>
-        
-    </Modal>
-    <Modal title="Check Out" open={isCheckOutModalOpen} onOk={handleCheckOut} onCancel={handleCheckOutCancel}>
-        
-    </Modal>
-  </>    
-
+  </>  
   )  
 }
 

@@ -1,4 +1,4 @@
-import { put, select, take, takeEvery, call, fork, spawn, delay, all } from 'redux-saga/effects'
+import { put, select, takeEvery, call, spawn } from 'redux-saga/effects'
 import * as type from '../types'
 import * as selectors from '../selectors'
 import * as actions  from '../../firebase/index'
@@ -15,14 +15,11 @@ export function* handleSetData() {
     }
 }
 export function* handleCheckUser() {  
-    // yield call(handleSetData)   
     try {
         const getNewUser = yield select(selectors.getUser)
         const getAllUsers = yield select(selectors.getAllUsers)
         const isUser = yield actions.checkNewUser(getNewUser, getAllUsers);
         console.log('isUser', isUser)
-        // delay(500)
-        // const accessDenied = yield call(actions.getResultsList)
         yield put(showModal(!isUser))
         yield put(setAccessAllowed(isUser))
 
@@ -33,11 +30,8 @@ export function* handleCheckUser() {
     }
 }
 
-export function* watchData() {
-    // yield all([
-    //     takeEvery(type.SET_DATA, handleSetData)
-    // ]);
-    yield takeEvery(type.SET_DATA, handleSetData)
+export function* watchData() { 
+    yield takeEvery(type.SET_ACCOUNTS, handleSetData)
 };
 
 export function* watchUser() {

@@ -73,3 +73,34 @@ export const checkNewUser = async (getNewUser, getAllUsers) => {
     } else return false
 }
 
+export const updateRooms = async (props) => { 
+   
+    const fireBaseRef = fb.firestore.collection(firebaseCollectionTypes.ROOMS);
+    const query = await fireBaseRef.get().then((snapshot) => {
+    const data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        return data;
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+    const rooms = query[0].rooms;
+    const currentRoom = rooms.find(item => item.id === props.id);  
+
+    if (currentRoom) 
+    {
+        currentRoom.guest = props.guest
+        currentRoom.isCheckedIn = props.isCheckedIn
+        if (props.checkInDate) currentRoom.checkInDate = props.checkInDate
+        if (props.checkOutDate) currentRoom.checkOutDate = props.checkOutDate
+        await fireBaseRef.doc(query[0].id).update({
+            rooms: rooms
+        }); 
+        
+    }    
+    return true
+}
+
+

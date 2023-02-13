@@ -4,10 +4,10 @@ export const getAllUsers = state => state.accounts.accounts;
 export const isAccessAllowed = state => state.currentUser.accessAllowed;
 export const rooms = state => state.rooms.rooms;
 export const modalState = state => state.currentUser.modalState;
+export const getCurrentRoomData = state => state.rooms.currentRoomData;
+export const updateRooms = state => state.rooms.updateRooms;
 
 
-export const setQuizWaiting = state => state.quizReducer.setQuizWaiting;
-export const getQuestions = state => state.questionsList.questions;
 export const getAnswers = state => state.quizReducer.answers;
 export const setCurrentQuestion = state => state.quizReducer.currentQuestion;
 export const quizResult = state => state.quizReducer.quizResult;

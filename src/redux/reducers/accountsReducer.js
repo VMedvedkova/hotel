@@ -6,7 +6,7 @@ const initialState = {
 
 export default function accountsReducer(state = initialState, action) {
     switch (action.type) {
-        case type.SET_DATA:
+        case type.SET_ACCOUNTS:
             return {
                 ...state
             }

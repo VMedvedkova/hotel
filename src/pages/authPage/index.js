@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Component from './AuthPage';
 import * as actions from '../../redux/actions/currentUser';
 import * as selectors from '../../redux/selectors';
-import * as accountsActions from '../../redux/actions//accounts'
+import * as accountsActions from '../../redux/actions/accounts'
 
 const mapStateToProps = state => ({
     // user: selectors.getUser(state),
@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     setUser: (payload) => dispatch(actions.setUser(payload)),
     showModal: (payload) => dispatch(actions.showModal(payload)),
-    setDataAccountsInStore: () => dispatch(accountsActions.setDataAccountsInStore()),
+    setAccounts: () => dispatch(accountsActions.setAccounts()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Component);

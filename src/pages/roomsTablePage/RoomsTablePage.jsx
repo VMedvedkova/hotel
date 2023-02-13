@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import 'antd/dist/reset.css'
 import { Button, Table, Input, Space, Checkbox, Form } from 'antd'
 import Highlighter from 'react-highlight-words'
@@ -6,15 +6,17 @@ import { SearchOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom';
 
 const RoomsTablePage = ({
-  rooms
+  roomsAray
 }) => {
-
-  const handleClick = () => {
-  }
   
 const [filteredInfo, setFilteredInfo] = useState({});
 const [sortedInfo, setSortedInfo] = useState({});
+const [rooms, setRooms] = useState(roomsAray);
 const [componentChecked, setComponentChecked] = useState(false);
+
+useEffect(() => {
+  setRooms(roomsAray)
+}, [rooms])
 
 const onChange = (pagination, filters, sorter, extra) => {
   setFilteredInfo(filters);
@@ -158,7 +160,6 @@ const columns = [
         value: 'deluxe',
       },
     ],
-    // filterMode: 'tree',
     width: '15%',
     filterSearch: false,
     filteredValue: filteredInfo.type || null,
@@ -207,19 +208,15 @@ const columns = [
     width: '30%',
     filteredValue: filteredInfo.guest || null,
     onFilter: (value, record) =>  record.guest.length === 0,
-    // sorter: (a, b) => a.guest.length - b.guest.length,
-    // sortOrder: sortedInfo.columnKey === 'guest' ? sortedInfo.order : null,
-    // sortDirections: ['descend', 'ascend'],    
     ...getColumnSearchProps('guest'),
   },
   {
     title: '',
     key: 'link',
     dataIndex: '',
-    render: (value, record) => <Link to={'/room/'+record.id}><Button type={'primary'} onClick={handleClick}>More Information</Button></Link>,
+    render: (value, record) => <Link to={'/room/'+record.id}><Button type={'primary'}>More Information</Button></Link>,
   }
 ];
-
 const onFinish = (values) => {
   console.log('Success:', values);
 };
@@ -227,9 +224,28 @@ const onFinishFailed = (errorInfo) => {
   console.log('Failed:', errorInfo);
 };
 const onCheckboxChange = (e) => {
-  e ? setFilteredInfo({type: null, occupancy: null, guest: [null]}) : setFilteredInfo({});
+  setFilteredInfo(e ? {type: null, occupancy: null, guest: [null]} : {})
   setComponentChecked(e ? true : false)
 };
+const bottomOptions = [
+  {
+    label: 'bottomLeft',
+    value: 'bottomLeft',
+  },
+  {
+    label: 'bottomCenter',
+    value: 'bottomCenter',
+  },
+  {
+    label: 'bottomRight',
+    value: 'bottomRight',
+  },
+  {
+    label: 'none',
+    value: 'none',
+  },
+];
+const [bottom, setBottom] = useState('bottomCenter');
 
 
   return (
@@ -245,21 +261,8 @@ const onCheckboxChange = (e) => {
           >
             Clear filters
           </Button>
-        {/* <Checkbox
-            checked={componentDisabled}
-            onChange={(e) => setComponentDisabled(e.target.checked)}
-          >
-            Free rooms only
-      </Checkbox> */}
-
       <Form
         name="basic"
-        // labelCol={{
-        //   span: 8,
-        // }}
-        // wrapperCol={{
-        //   span: 16,
-        // }}
         style={{
           maxWidth: 600,
         }}
@@ -272,26 +275,17 @@ const onCheckboxChange = (e) => {
       >
         <Form.Item
           name="freeRoomsOnly"
-          // valuePropName={componentChecked}
-          // valuePropName={componentChecked}
           style={{
             margin: '0',
           }}
-          // wrapperCol={{
-          //   offset: 8,
-          //   span: 16,
-          // }}
-          // onChange={onCheckboxChange}
           valuePropName={componentChecked}
           onChange={(e) => onCheckboxChange(e.target.checked)}
         >
           <Checkbox checked={componentChecked}>{componentChecked}Free rooms only</Checkbox>
         </Form.Item>
       </Form>
-
-
       </Space>
-      <Table columns={columns} dataSource={rooms} onChange={onChange} rowKey={(record) => record.id}/>
+      <Table columns={columns} pagination={{ defaultPageSize: 10, showSizeChanger: true, position: [bottom] }} dataSource={rooms} onChange={onChange} rowKey={(record) => record.id}/>
     </>
   )  
 }

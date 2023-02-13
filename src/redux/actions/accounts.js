@@ -7,9 +7,9 @@ export function setDataAccountsInStore(payload) {
     }
 }
 
-export function setData() {
+export function setAccounts() {
     return {
-        type: type.SET_DATA
+        type: type.SET_ACCOUNTS
     }
 }
 
