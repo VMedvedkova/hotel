@@ -24,13 +24,11 @@ export default function roomsReducer(state = initialState, action) {
                 ...state,
                 currentRoomData: action.payload,
                 rooms: state.rooms.map(room => room.id === action.payload.id ?
-                    // transform the one with a matching id
                     { ...room, 
                         guest: action.payload.guest,
                         isCheckedIn: action.payload.isCheckedIn,
                         checkOutDate: action.payload.checkOutDate
                     } : 
-                    // otherwise return original todo
                     room
                 )
               }

@@ -1,18 +1,15 @@
 
 import 'antd/dist/reset.css'
 import { Layout } from 'antd'
+import './FooterLayout.scss';
 
 const { Footer } = Layout
 
 const FooterLayout = () => {  
   return (
-    <Footer
-        style={{
-          textAlign: 'center',
-        }}
-      >
-        Ant Design ©2023
-      </Footer> 
+    <Footer className="centered">
+      Ant Design ©2023
+    </Footer> 
   )
 };
 

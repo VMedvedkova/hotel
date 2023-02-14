@@ -1,4 +1,4 @@
-import { put, select, take, takeEvery, call, fork, spawn, delay, all, takeLatest } from 'redux-saga/effects'
+import { put, select, call, spawn, takeLatest } from 'redux-saga/effects'
 import * as type from '../types'
 import * as selectors from '../selectors'
 import { setDataRooms, updateRooms } from '../../firebase/index'
@@ -19,7 +19,6 @@ export function* handleUpdateRooms() {
     try {  
         const getCurrentRoom = yield select(selectors.getCurrentRoomData)
         yield updateRooms(getCurrentRoom) 
-        // yield call(handleSetData)
     }
     catch {
         console.log('handleUpdateRooms error') 
@@ -38,4 +37,4 @@ export function* watchRooms() {
 export default function* roomsSaga() {
     yield spawn(watchData) 
     yield spawn(watchRooms)
- }
+}

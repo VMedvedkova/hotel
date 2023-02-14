@@ -1,30 +1,29 @@
-import { Breadcrumb, Layout, Menu, theme, ConfigProvider } from 'antd'
-import { Route, Switch, Redirect, Outlet } from 'react-router-dom'
-import AuthPage from "../../pages/authPage"
-import MainPage from "../../pages/mainPage"
+import { Layout } from 'antd'
 import AppRouter from "../../components/appRouter"
-import SingleRoomPage from "../../pages/singleRoomPage"
+import './MainLayout.scss';
+import PropTypes from 'prop-types'
 
 const { Content } = Layout
+
+const propTypes = {
+  setRooms: PropTypes.func.isRequired
+};
+
 
 const MainLayout = ({
   setRooms
 }) => {
   
   setRooms()
-
   return (
-    <>
-      <Content
-        style={{
-          padding: '32px 50px',
-        }}
-      >
+      <Content className="main_layout">
         <div className="site-layout-content">
           <AppRouter />
         </div>
       </Content>
-    </>
-  );
-};
+  )
+}
+
+MainLayout.propTypes = propTypes
+
 export default MainLayout

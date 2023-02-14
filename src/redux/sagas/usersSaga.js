@@ -19,7 +19,6 @@ export function* handleCheckUser() {
         const getNewUser = yield select(selectors.getUser)
         const getAllUsers = yield select(selectors.getAllUsers)
         const isUser = yield actions.checkNewUser(getNewUser, getAllUsers);
-        console.log('isUser', isUser)
         yield put(showModal(!isUser))
         yield put(setAccessAllowed(isUser))
 
@@ -41,4 +40,4 @@ export function* watchUser() {
 export default function* usersSaga() {
     yield spawn(watchData)
     yield spawn(watchUser) 
- }
+}

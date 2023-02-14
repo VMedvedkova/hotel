@@ -1,22 +1,42 @@
-import {useParams, useState, useEffect} from 'react'
 import { useLocation } from 'react-router'
 import 'antd/dist/reset.css'
-import { Button, Col, Row, Carousel, Image, Typography, Descriptions, Space, Modal } from 'antd'
-import Highlighter from 'react-highlight-words'
-import { SearchOutlined } from '@ant-design/icons'
-import { Link, useHistory  } from 'react-router-dom';
+import { 
+  Button, 
+  Col, 
+  Row, 
+  Carousel, 
+  Image, 
+  Typography,
+  Descriptions, 
+  Space 
+} from 'antd'
+import { useHistory  } from 'react-router-dom';
 import {
   HomeOutlined,
   CheckOutlined
 } from '@ant-design/icons';
 import CheckIn from '../../components/checkIn'
 import CheckOut from '../../components/checkOut'
+import './SingleRoomPage.scss'
+import * as constants from '../../constants/rooms'
+import PropTypes from 'prop-types'
 
-const contentStyle = {
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: 'rgb(69 86 110 / 30%)',
+const propTypes = {
+  rooms: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
+    type: PropTypes.oneOf(Object.values(constants.ROOMS_TYPES)).isRequired,
+    occupancy: PropTypes.oneOf(constants.ROOM_OCCUPANCY_LIST).isRequired,
+    isCheckedIn: PropTypes.bool.isRequired,
+    price: PropTypes.number.isRequired,
+    features: PropTypes.arrayOf(PropTypes.string).isRequired,
+    gallery: PropTypes.arrayOf(PropTypes.string).isRequired,
+    description: PropTypes.string.isRequired,
+    checkInDate: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+    checkOutDate: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+    guest: PropTypes.string,
+  }).isRequired,
+  updateRooms: PropTypes.func.isRequired
 };
 
 const SingleRoomPage = ({
@@ -28,19 +48,32 @@ const SingleRoomPage = ({
   const path = location.pathname.split('/')[2]
   const room = rooms.find(item => item.id === path)
   const history = useHistory();
-  const { Title, Paragraph, Text } = Typography;
-  const { gallery, number, type, occupancy, price, guest, features, description, id } = room;
-  const [isCheckInModalOpen, setIsCheckInModalOpen] = useState(false);
-  const [isCheckOutModalOpen, setIsCheckOutModalOpen] = useState(false);
+  const { Title, Text } = Typography;
+  const { 
+    gallery, 
+    number, 
+    type, 
+    occupancy, 
+    price, 
+    guest, 
+    features, 
+    description 
+  } = room;
+
   
   return (
   <>
     <Row gutter={[32, 32]}>
-      <Col span={24}><Button type="link" onClick={() => history.goBack()}><HomeOutlined />Back Home</Button></Col>
-
+      <Col span={24}>
+        <Button 
+          type="link" 
+          onClick={() => history.goBack()}
+        >
+          <HomeOutlined />Back Home
+        </Button>
+      </Col>
       <Col span={12}>
-        <Carousel autoplay>
-        
+        <Carousel autoplay>        
           {gallery.map((src, index) => (
              <Image 
                 key={index}
@@ -48,10 +81,15 @@ const SingleRoomPage = ({
               />
             ))
           }
-      </Carousel></Col>
+        </Carousel>
+      </Col>
       <Col span={12}>
         <Row>
-          <Col span={12}><Title underline>Room {number}</Title></Col>
+          <Col span={12}>
+            <Title underline>
+              Room {number}
+            </Title>
+          </Col>
           <Col span={12}>
             <Row justify="end">
               {updateRooms &&
@@ -65,34 +103,48 @@ const SingleRoomPage = ({
         </Row>
         <Row>
           <Col span={12}>
-          <Descriptions  column={1}>
-            <Descriptions.Item label="Type" labelStyle={{fontWeight: 'bold'}}>{type}</Descriptions.Item>
-            <Descriptions.Item label="Occupancy" labelStyle={{fontWeight: 'bold'}}>{occupancy}</Descriptions.Item>
-            <Descriptions.Item label="Price" labelStyle={{fontWeight: 'bold'}}>{price}</Descriptions.Item>
-            {guest && <><Descriptions.Item label="Guest" labelStyle={{fontWeight: 'bold'}}>{guest}</Descriptions.Item></>}
+          <Descriptions column={1} className="bold_list">
+            <Descriptions.Item label="Type">{type}</Descriptions.Item>
+            <Descriptions.Item label="Occupancy">{occupancy}</Descriptions.Item>
+            <Descriptions.Item label="Price">{price}</Descriptions.Item>
+            {guest && <Descriptions.Item label="Guest">{guest}</Descriptions.Item>}
           </Descriptions>
           </Col>
           <Col span={12}>
-            <Descriptions  column={1} layout={'vertical'} >
-            <Descriptions.Item label="Features" labelStyle={{fontWeight: 'bold'}} className='featuresList'>
-              {features.map((item, index) => (
-                <Text key={index}><CheckOutlined /> {item}<br /></Text>
-                ))
-              }   
-          </Descriptions.Item>
+            <Descriptions  
+              column={1} 
+              layout={'vertical'} 
+              className="bold_list"
+            >
+              <Descriptions.Item 
+                label="Features" 
+                className='featuresList'
+              >
+                {features.map((item, index) => (
+                    <Text key={index}>
+                      <CheckOutlined /> {item}<br />
+                    </Text>
+                  ))
+                }   
+            </Descriptions.Item>
           </Descriptions> 
         </Col>
         </Row>
       </Col>
       <Col span={24}>
-        <Descriptions>
-          <Descriptions.Item label="Description" labelStyle={{fontWeight: 'bold'}}>{description}</Descriptions.Item>
+        <Descriptions className="bold_list">
+          <Descriptions.Item 
+            label="Description" 
+          >
+            {description}
+          </Descriptions.Item>
         </Descriptions>
       </Col>
-
     </Row>
   </>  
   )  
 }
+
+SingleRoomPage.propTypes = propTypes
 
 export default SingleRoomPage

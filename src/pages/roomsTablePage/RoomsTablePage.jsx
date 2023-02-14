@@ -3,43 +3,65 @@ import 'antd/dist/reset.css'
 import { Button, Table, Input, Space, Checkbox, Form } from 'antd'
 import Highlighter from 'react-highlight-words'
 import { SearchOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import * as constants from '../../constants/rooms'
+
+const propTypes = {
+  roomsAray: 
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        number: PropTypes.number.isRequired,
+        type: PropTypes.oneOf(Object.values(constants.ROOMS_TYPES)).isRequired,
+        occupancy: PropTypes.oneOf(constants.ROOM_OCCUPANCY_LIST).isRequired,
+        isCheckedIn: PropTypes.bool.isRequired,
+        price: PropTypes.number.isRequired,
+        features: PropTypes.arrayOf(PropTypes.string).isRequired,
+        gallery: PropTypes.arrayOf(PropTypes.string).isRequired,
+        description: PropTypes.string.isRequired,
+        checkInDate: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+        checkOutDate: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+        guest: PropTypes.string,
+    }).isRequired
+  ).isRequired
+};
 
 const RoomsTablePage = ({
   roomsAray
 }) => {
   
-const [filteredInfo, setFilteredInfo] = useState({});
-const [sortedInfo, setSortedInfo] = useState({});
-const [rooms, setRooms] = useState(roomsAray);
-const [componentChecked, setComponentChecked] = useState(false);
+  const [filteredInfo, setFilteredInfo] = useState({});
+  const [sortedInfo, setSortedInfo] = useState({});
+  const [rooms, setRooms] = useState(roomsAray);
+  const [componentChecked, setComponentChecked] = useState(false);  
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
+  const [bottom, setBottom] = useState('bottomCenter');
 
-useEffect(() => {
-  setRooms(roomsAray)
-}, [rooms])
+  useEffect(() => {
+    setRooms(roomsAray)
+  }, [rooms])
 
-const onChange = (pagination, filters, sorter, extra) => {
-  setFilteredInfo(filters);
-  setSortedInfo(sorter);
-};
-const clearAll = () => {
-  setFilteredInfo({});
-  setSortedInfo({});
-  setSearchText('');
-  setComponentChecked(false)
-};
-const [searchText, setSearchText] = useState('');
-const [searchedColumn, setSearchedColumn] = useState('');
-const searchInput = useRef(null);
-const handleSearch = (selectedKeys, confirm, dataIndex) => {
-  confirm();
-  setSearchText(selectedKeys[0]);
-  setSearchedColumn(dataIndex);
-};
-const handleReset = (clearAll) => {
-  clearAll();
-};
-
+  const onChange = (pagination, filters, sorter, extra) => {
+    setFilteredInfo(filters);
+    setSortedInfo(sorter);
+  };
+  const clearAll = () => {
+    setFilteredInfo({});
+    setSortedInfo({});
+    setSearchText('');
+    setComponentChecked(false)
+  };
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearAll) => {
+    clearAll();
+  };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div
@@ -227,29 +249,10 @@ const onCheckboxChange = (e) => {
   setFilteredInfo(e ? {type: null, occupancy: null, guest: [null]} : {})
   setComponentChecked(e ? true : false)
 };
-const bottomOptions = [
-  {
-    label: 'bottomLeft',
-    value: 'bottomLeft',
-  },
-  {
-    label: 'bottomCenter',
-    value: 'bottomCenter',
-  },
-  {
-    label: 'bottomRight',
-    value: 'bottomRight',
-  },
-  {
-    label: 'none',
-    value: 'none',
-  },
-];
-const [bottom, setBottom] = useState('bottomCenter');
-
 
   return (
-    <> <Space
+    <> 
+      <Space
         style={{
           marginBottom: 32,
           columnGap: 24
@@ -281,13 +284,29 @@ const [bottom, setBottom] = useState('bottomCenter');
           valuePropName={componentChecked}
           onChange={(e) => onCheckboxChange(e.target.checked)}
         >
-          <Checkbox checked={componentChecked}>{componentChecked}Free rooms only</Checkbox>
+          <Checkbox 
+            checked={componentChecked}
+          >
+            {componentChecked}Free rooms only
+          </Checkbox>
         </Form.Item>
       </Form>
       </Space>
-      <Table columns={columns} pagination={{ defaultPageSize: 10, showSizeChanger: true, position: [bottom] }} dataSource={rooms} onChange={onChange} rowKey={(record) => record.id}/>
+      <Table 
+        columns={columns} 
+        pagination={{ 
+          defaultPageSize: 10, 
+          showSizeChanger: true, 
+          position: [bottom] 
+        }} 
+        dataSource={rooms} 
+        onChange={onChange} 
+        rowKey={(record) => record.id}
+      />
     </>
   )  
 }
+
+RoomsTablePage.propTypes = propTypes
 
 export default RoomsTablePage

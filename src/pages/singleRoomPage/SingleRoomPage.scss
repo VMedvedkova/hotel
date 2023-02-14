@@ -1,0 +1,24 @@
+@import "../../utils/styleConsts";
+
+.bold_list .ant-descriptions-item-label {
+    font-weight: bold
+}
+.site-layout-content {
+    & .ant-image-img {
+        width: 100% !important;
+        overflow: hidden;
+    }
+    & .ant-image {
+        width: 100%;
+        text-align: center;
+    }
+}
+.ant-carousel .slick-list .slick-slide >div>div {
+    overflow: hidden;
+}
+.ant-col ul {
+    padding-inline-start: 20px;
+}
+.ant-descriptions .ant-descriptions-item.featuresList .ant-descriptions-item-container .ant-descriptions-item-content {
+    display: inline-block;
+}

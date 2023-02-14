@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.1.7",
     "bootstrap": "^5.2.3",
+    "css-loader": "^6.7.3",
     "firebase": "^8.10.1",
     "font-awesome": "^4.7.0",
     "gapi-script": "^1.2.0",
@@ -29,6 +30,9 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.2.2",
     "reselect": "^4.1.7",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.58.1",
+    "sass-loader": "^13.2.0",
     "service-worker-plugin": "^2.0.5",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"

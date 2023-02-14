@@ -1,8 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button, Modal, Space } from 'antd'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import * as constants from '../../constants/rooms';
+import './CheckOut.scss';
 
+const propTypes = {
+  updateRoomData: PropTypes.func.isRequired,
+  room: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
+    type: PropTypes.oneOf(Object.values(constants.ROOMS_TYPES)).isRequired,
+    occupancy: PropTypes.oneOf(constants.ROOM_OCCUPANCY_LIST).isRequired,
+    isCheckedIn: PropTypes.bool.isRequired,
+    price: PropTypes.number.isRequired,
+    features: PropTypes.arrayOf(PropTypes.string).isRequired,
+    gallery: PropTypes.arrayOf(PropTypes.string).isRequired,
+    description: PropTypes.string.isRequired,
+    checkInDate: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+    checkOutDate: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+    guest: PropTypes.string,
+  }).isRequired,
+};
 const CheckOut = ({
     updateRoomData,
     room
@@ -10,15 +29,12 @@ const CheckOut = ({
     
     const date = new Date().toString()
     const today = moment(date).format('L');
-
-    const {id, isCheckedIn, number} = room
-    
     const [isModalOpen, setIsModalOpen] = useState(false); 
+    const {id, isCheckedIn, number} = room    
 
     const checkOut = () => {
       setIsModalOpen(true)
     }
-
     const handleCheckOut = () => {
       setIsModalOpen(false)
       const checkOutInfo = {
@@ -29,11 +45,9 @@ const CheckOut = ({
       }
       updateRoomData(checkOutInfo)  
     }
-
     const handleCheckOutCancel = () => {
       setIsModalOpen(false)  
     } 
-
 
   return (
     <>        
@@ -49,20 +63,18 @@ const CheckOut = ({
           open={isModalOpen} 
           onOk={handleCheckOut} 
           onCancel={handleCheckOutCancel}
-          footer={<>
-            <Button onClick={handleCheckOutCancel} type="default">
-                Cancel
-            </Button>
-            <Button onClick={handleCheckOut} type="primary">
-                Confirm
-            </Button></>
+          footer={
+            <>
+              <Button onClick={handleCheckOutCancel} type="default">
+                  Cancel
+              </Button>
+              <Button onClick={handleCheckOut} type="primary">
+                  Confirm
+              </Button>
+            </>
             }
         >   
-         <Space  
-            style={{
-              marginTop: 25,
-              marginBottom: 25
-            }}>
+         <Space className="main-layout">
               Do you confirm the check-out {'Room ' + number + '?'}
           </Space>              
         </Modal>
@@ -70,13 +82,6 @@ const CheckOut = ({
   )
 };
 
-
-CheckOut.propTypes = {
-  updateRoomData:  PropTypes.func.isRequired
-}
-
-CheckOut.defaultProps = {
-  updateRoomData: () => {}
-}
+CheckOut.propTypes = propTypes
 
 export default CheckOut;

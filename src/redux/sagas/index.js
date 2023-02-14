@@ -1,4 +1,4 @@
-import { call, all, spawn } from 'redux-saga/effects'
+import { call, all } from 'redux-saga/effects'
 import usersSaga from './usersSaga'
 import roomsSaga from './roomsSaga'
 

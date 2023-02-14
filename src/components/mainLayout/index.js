@@ -6,5 +6,4 @@ const mapDispatchToProps = dispatch => ({
     setRooms: () => dispatch(roomsActions.setRooms()),
 });
 
-
 export default connect(null, mapDispatchToProps)(Component);

@@ -2,7 +2,6 @@ import { createStore, compose, applyMiddleware } from 'redux'
 import rootReduser from '../reducers/index.js'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './index'
-import { storageMiddleware, createStorageListener } from './storageListener'
 
 const saveToLocalStorage = (state) => {
     try {
@@ -31,12 +30,10 @@ const composeEnhancers =
 
 const persistedStore = loadFromLocalStorage();
 
-const storageMiddle = storageMiddleware()
-
 const configureStore = preloadedState => createStore(
     rootReduser,
     persistedStore,
-    composeEnhancers(applyMiddleware(sagaMiddleware, storageMiddle))
+    composeEnhancers(applyMiddleware(sagaMiddleware))
 )
 
 const store = configureStore({})
@@ -46,6 +43,5 @@ store.subscribe(() => {
 });
 
 sagaMiddleware.run(rootSaga)
-
 
 export default store

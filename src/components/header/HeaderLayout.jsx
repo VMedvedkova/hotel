@@ -1,14 +1,16 @@
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.png'
 import 'antd/dist/reset.css'
-import { Button, DatePicker, message, Menu, Image, Layout, Avatar } from 'antd'
+import { Button, Layout, Avatar } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
+import './HeaderLayout.scss'
 import PropTypes from 'prop-types'
-import moment from 'moment'
-import { UserOutlined } from '@ant-design/icons';
-import { setAccessAllowed } from '../../redux/actions/currentUser';
-
-const url = 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg';
 
 const { Header } = Layout
+
+const propTypes = {
+  deleteUser: PropTypes.func.isRequired,
+  setAccessAllowed: PropTypes.func.isRequired
+};
 
 const HeaderLayout = ({
     deleteUser,
@@ -22,25 +24,26 @@ const HeaderLayout = ({
 
   return (
     <Header>        
-        <img src={logo} className="logo" alt="logo" />      
-        <Button 
-          type="link" 
-          style={{
-                color: '#fff'
-          }}
-          onClick={logOut}
-          >
-          <Avatar 
-            icon={<UserOutlined />}
-            style={{
-              backgroundColor: 'rgb(69 86 110)',
-              color: '#fff',
-              marginRight: 15
-            }} />
+      <img 
+        src={logo} 
+        className="logo" 
+        alt="logo" 
+      />      
+      <Button 
+        className="button"
+        type="link" 
+        onClick={logOut}
+      >
+        <Avatar 
+          className="avatar"
+          icon={<UserOutlined />}
+        />
           Log Out
-          </Button>
+      </Button>
     </Header>  
   )
 };
 
-export default HeaderLayout;
+HeaderLayout.propTypes = propTypes
+
+export default HeaderLayout

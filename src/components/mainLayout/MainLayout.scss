@@ -1,0 +1,12 @@
+@import "../../utils/styleConsts";
+
+.main_layout {
+    padding: $medium $big
+}
+.ant-layout-content {
+    line-height: 1.5rem;
+
+    & .site-layout-content {
+        min-height: 280px;
+      }
+}

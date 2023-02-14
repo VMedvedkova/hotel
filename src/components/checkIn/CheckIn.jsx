@@ -5,37 +5,58 @@ import {
   Form,
   Input,
   DatePicker } from 'antd'
-import PropTypes from 'prop-types'
 import moment from 'moment'
+import './CheckIn.scss'
+import * as constants from '../../constants/rooms'
+import PropTypes from 'prop-types'
 
+const propTypes = {
+  updateRoomData: PropTypes.func.isRequired,
+  room: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
+    type: PropTypes.oneOf(Object.values(constants.ROOMS_TYPES)).isRequired,
+    occupancy: PropTypes.oneOf(constants.ROOM_OCCUPANCY_LIST).isRequired,
+    isCheckedIn: PropTypes.bool.isRequired,
+    price: PropTypes.number.isRequired,
+    features: PropTypes.arrayOf(PropTypes.string).isRequired,
+    gallery: PropTypes.arrayOf(PropTypes.string).isRequired,
+    description: PropTypes.string.isRequired,
+    checkInDate: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+    checkOutDate: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+    guest: PropTypes.string,
+  }).isRequired,
+};
 
 const CheckIn = ({
     updateRoomData,
     room
   }) => {
+
     const {id, isCheckedIn, checkOutDate} = room 
     const [isModalOpen, setIsModalOpen] = useState(false); 
     const [form] = Form.useForm();
+    const date = new Date().toString()
+    const today = moment(date).format('L');
 
     const checkIn = () => {
       setIsModalOpen(true)
     }    
-    const date = new Date().toString()
-    const today = moment(date).format('L');
-
+    const checkOutDateToStore = (checkOutDateFromForm) => {
+      const formatedcheckOutDate = checkOutDateFromForm.toString();
+      return moment(formatedcheckOutDate).format('L');
+    }
     const handleCheckIn = (values) => {  
-      const today = moment(date).format('L');
       setIsModalOpen(false)
-      values.id = id
-      values.isCheckedIn = true
-      values.checkInDate = today
-      const formatedcheckOutDate = values.checkOutDateFromForm.toString();
-      const checkOutDateToStore = moment(formatedcheckOutDate).format('L');
-      values.checkOutDate = checkOutDateToStore;
-      console.log('values:', values); 
+      values.checkOutDate = checkOutDateToStore(values.checkOutDateFromForm);
+      const details = {        
+        id: id,
+        isCheckedIn: true,
+        checkInDate: today
+      }
+      Object.assign(values, details);
       updateRoomData(values)    
       form.resetFields()
-
     }
     const handleCheckInCancel = () => {
       setIsModalOpen(false)     
@@ -43,10 +64,12 @@ const CheckIn = ({
     }    
     const onFinishFailed = (errorInfo, values) => {
       console.log('Failed:', errorInfo); 
-    };
+    };   
+    
+    const disabledDate = (current) => current && current < moment().endOf('day');
     
     useEffect(() => {
-      if (today === checkOutDate) {
+      if (today >= checkOutDate) {
         const expiredDate = {
           id: id, 
           guest: '', 
@@ -60,77 +83,65 @@ const CheckIn = ({
 
   return (
     <>        
-        <Button
-          type={"primary"}
-          disabled={isCheckedIn}
-          onClick={checkIn} 
-          >
-          Check In
-          </Button>
-         
-        <Modal 
-          title="Check In" 
-          open={isModalOpen} 
-          onOk={handleCheckIn} 
-          onCancel={handleCheckInCancel}
-          footer={<>
+      <Button
+        type={"primary"}
+        disabled={isCheckedIn}
+        onClick={checkIn} 
+      >
+        Check In
+      </Button>
+      <Modal 
+        title="Check In" 
+        open={isModalOpen} 
+        onOk={handleCheckIn} 
+        onCancel={handleCheckInCancel}
+        footer={
+          <>
             <Button onClick={handleCheckInCancel} type="default">
                 Cancel
             </Button>
             <Button form="checkIn" htmlType="submit" type="primary">
                 Submit
-            </Button></>
-            }
-        >
+            </Button>
+          </>
+        }
+      >
         <Form
-           form={form}
-          // id="myForm"
+          form={form}
           name="checkIn"
-          // labelCol={{ span: 8 }}
-          // wrapperCol={{ span: 16 }}
-          // style={{ maxWidth: 600 }}
-          // initialValues={{ remember: true }}
+          initialValues={{ remember: true }}
           autoComplete="Off"
           onFinish={handleCheckIn}
           onFinishFailed={onFinishFailed}
           layout="vertical"
-          style={{ 
-            marginTop: '25px',
-            marginBottom: '25px'
-          }}
+          className="main-layout"
         >
-        <Form.Item
-          label="Please, enter the guest's name"
-          name="guest"
-          // onChange={(e)}
-          rules={[{ required: true, message: "Please, enter the guest's name" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Please, enter the approximate date of guest check out"
-          name="checkOutDateFromForm"
-          rules={[{ required: true, message: "Please, enter the approximate date of guest check out" }]}
-        > 
-          <DatePicker />
-        </Form.Item>          
+          <Form.Item
+            label="Please, enter the guest's name"
+            name="guest"
+            rules={[{ 
+              required: true, 
+              message: "Please, enter the guest's name" 
+            }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Please, enter the approximate date of guest check out"
+            name="checkOutDateFromForm"
+            rules={[{ 
+              required: true, 
+              message: "Please, enter the approximate date of guest check out" 
+            }]}
+          > 
+            <DatePicker disabledDate={disabledDate}/>
+          </Form.Item>          
         </Form>         
-        </Modal>
+      </Modal>
     </>  
   )
 };
 
+CheckIn.propTypes = propTypes
 
-CheckIn.propTypes = {
-  roomId: PropTypes.string.isRequired,
-  isCheckedIn:  PropTypes.bool,
-  updateRoomData:  PropTypes.func.isRequired
-}
-
-CheckIn.defaultProps = {
-  roomId: '',
-  isCheckedIn: false,
-  updateRoomData: () => {}
-}
-
-export default CheckIn;
+export default CheckIn

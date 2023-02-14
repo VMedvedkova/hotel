@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import Component from './SingleRoomPage';
-import * as actions from '../../redux/actions/currentUser';
 import * as selectors from '../../redux/selectors';
 
 const mapStateToProps = state => ({
@@ -8,8 +7,4 @@ const mapStateToProps = state => ({
     updateRooms: selectors.updateRooms(state)
 });
 
-const mapDispatchToProps = dispatch => ({
-    // deleteUser: () => dispatch(actions.deleteUser()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(mapStateToProps, null)(Component);

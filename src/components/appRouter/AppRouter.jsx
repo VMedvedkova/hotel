@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React from 'react'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import AuthPage from "../../pages/authPage"
 import MainPage from "../../pages/mainPage"
 import SingleRoomPage from "../../pages/singleRoomPage"
@@ -21,29 +21,28 @@ const privateRoutes = [
         Component: SingleRoomPage,
     }
 ];
+
 const AppRouter = ({
     user,
     isAccessAllowed
 }) => {
 
-    const isUser = Object.keys(user).length !== 0
-
     return (
-        (isAccessAllowed) ?
+        isAccessAllowed ?
             <Switch>
                 {privateRoutes.map(({ path, Component }) =>
                     <Route key={path} path={path} component={() => <Component />} exact />
                 )}
                 <Redirect to='/'/>
             </Switch>
-        :
-        <Switch>
-            {publicRoutes.map(({ path, Component }) => 
-                <Route key={path} path={path} component={() => <Component />} exact />
-            )}
-            <Redirect to='/login'/>
-        </Switch>
+            :
+            <Switch>
+                {publicRoutes.map(({ path, Component }) => 
+                    <Route key={path} path={path} component={() => <Component />} exact />
+                )}
+                <Redirect to='/login'/>
+            </Switch>
     )
 };
 
-export default AppRouter;
+export default AppRouter
